@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.scss';
+import ReactDOM from 'react-dom';
+import { AnimatePresence } from 'framer-motion';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Gallery } from './Gallery';
+import { SingleImage } from "./SingleImage";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+// import './styles.css';
 
-export default App;
+export const App = () => (
+  <Router>
+    <Route
+      render={({ location }) => (
+        <AnimatePresence exitBeforeEnter initial={false}>
+          <Switch location={location} key={location.pathname}>
+            <Route exact path='/' component={Gallery} />
+            <Route exact path="/image/:id" component={SingleImage} />
+          </Switch>
+        </AnimatePresence>
+      )}
+    />
+  </Router>
+);
+
+const rootElement = document.getElementById('root');
+ReactDOM.render(<App />, rootElement);
